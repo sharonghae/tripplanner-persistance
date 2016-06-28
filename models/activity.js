@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 var Sequelize = require('sequelize');
 var db = require('./_db');
 var Place = require('./place');

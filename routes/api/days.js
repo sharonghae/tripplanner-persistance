@@ -39,7 +39,7 @@ router.delete('/:id', function (req, res, next) {
   Day.findById(req.params.id)
   .then(function (day) {
     return day.destroy(); // triggers beforeDestroy hook
-  }) 
+  })
   .then(function () {
     res.sendStatus(204);
   })

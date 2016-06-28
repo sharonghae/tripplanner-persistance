@@ -1,5 +1,5 @@
 'use strict';
-/* global $ mapModule daysModule */
+/* global $ mapModule daysModule utilsModule */
 
 /**
  * This module builds front-end `attraction` objects from raw database
@@ -11,7 +11,7 @@
  * The module has one publicly-usable method: `.create(data)`, which takes
  * a database object for an attraction and creates the live, prototypal
  * `attraction` object with its methods and extra properties. It then
- * returns that object. That method is used prinicipally in `options.js`.
+ * returns that object. That method is used principally in `options.js`.
  */
 
 var attractionsModule = (function () {

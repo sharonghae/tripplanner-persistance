@@ -1,5 +1,5 @@
 'use strict';
-/* global $ */
+/* global $ dayModule */
 
 /**
  * A module for managing multiple days & application state.

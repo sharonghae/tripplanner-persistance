@@ -1,5 +1,5 @@
 'use strict';
-/* global $ utilsModule */
+/* global $ utilsModule daysModule attractionsModule */
 
 /**
  * A module for constructing front-end `day` objects, optionally from back-end

@@ -1,5 +1,5 @@
 'use strict';
-/* global $ daysModule attractionsModule hotels restaurants activities */
+/* global $ daysModule attractionsModule */
 
 /**
  * This module fills the `select` tags with `option`s.
@@ -28,17 +28,20 @@ $(function(){
 
   // make a single `option` tag & associate it with an attraction object
   function makeOption (databaseAttraction) {
-    // debugger;
     var clientAttraction = attractionsModule.create(databaseAttraction);
     var $option = $('<option></option>') // makes a new option tag
       .text(clientAttraction.name) // with this inner text
-      .data({ obj: clientAttraction}); // associates the attraction with this option
+      .data({ obj: clientAttraction }); // associates the attraction with this option
     this.append($option); // add the option to this select
   }
 
   // what to do when the `+` button next to a `select` is clicked
   $optionsPanel.on('click', 'button[data-action="add"]', function () {
-    var attraction = $(this).siblings('select').find(':selected').data().obj;
+    var attraction = $(this)
+    .siblings('select')
+    .find(':selected')
+    .data()
+    .obj;
     daysModule.addToCurrent(attraction);
   });
 

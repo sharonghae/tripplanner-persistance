@@ -87,7 +87,6 @@ var mapModule = (function () {
 }());
 
 
-
 // styles
 
 var styleArr = [{
