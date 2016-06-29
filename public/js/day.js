@@ -101,34 +101,37 @@ var dayModule = (function () {
           url: '/api/days/' + theDay.id + '/hotel',
           data: {id: attraction.id}
         })
-        .done(function () {
+        .then(function () {
           if (theDay.hotel) theDay.hotel.hide();
           theDay.hotel = attraction;
           attraction.show();
         })
-        .fail(console.error.bind(console)); break;
+        .catch(utilsModule.logErr);
+        break;
       case 'restaurant':
         $.ajax({
           method: 'POST',
           url: '/api/days/' + theDay.id + '/restaurants',
           data: {id: attraction.id}
         })
-        .done(function () {
+        .then(function () {
           utilsModule.pushUnique(theDay.restaurants, attraction);
           attraction.show();
         })
-        .fail(console.error.bind(console)); break;
+        .catch(utilsModule.logErr);
+        break;
       case 'activity':
         $.ajax({
           method: 'POST',
           url: '/api/days/' + theDay.id + '/activities',
           data: {id: attraction.id}
         })
-        .done(function () {
+        .then(function () {
           utilsModule.pushUnique(theDay.activities, attraction);
           attraction.show();
         })
-        .fail(console.error.bind(console)); break;
+        .catch(utilsModule.logErr);
+        break;
       default: console.error('bad type:', attraction);
     }
   };
@@ -141,31 +144,34 @@ var dayModule = (function () {
           method: 'DELETE',
           url: '/api/days/' + theDay.id + '/hotel'
         })
-        .done(function () {
+        .then(function () {
           theDay.hotel.hide();
           theDay.hotel = null;
         })
-        .fail(console.error.bind(console)); break;
+        .catch(utilsModule.logErr);
+        break;
       case 'restaurant':
         $.ajax({
           method: 'DELETE',
           url: '/api/days/' + theDay.id + '/restaurants/' + attraction.id
         })
-        .done(function () {
+        .then(function () {
           utilsModule.remove(theDay.restaurants, attraction);
           attraction.hide();
         })
-        .fail(console.error.bind(console)); break;
+        .catch(utilsModule.logErr);
+        break;
       case 'activity':
         $.ajax({
           method: 'DELETE',
           url: '/api/days/' + theDay.id + '/activities/' + attraction.id
         })
-        .done(function () {
+        .then(function () {
           utilsModule.remove(theDay.activities, attraction);
           attraction.hide();
         })
-        .fail(console.error.bind(console)); break;
+        .catch(utilsModule.logErr);
+        break;
       default: console.error('bad type:', attraction);
     }
   };

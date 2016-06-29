@@ -27,6 +27,8 @@ var utilsModule = {
     var index = array.indexOf(item);
     if (index === -1) return;
     return array.splice(index, 1);
-  }
+  },
+
+  logErr: console.error.bind(console)
 
 };

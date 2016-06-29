@@ -1,5 +1,5 @@
 'use strict';
-/* global $ daysModule attractionsModule */
+/* global $ daysModule attractionsModule utilsModule */
 
 /**
  * This module fills the `select` tags with `option`s.
@@ -14,17 +14,14 @@ $(function(){
 
   var $optionsPanel = $('#options-panel');
 
-  $.ajax({
-    method: 'GET',
-    url: '/api/attractions',
-    success: function (db) {
-      // remember, second param of `forEach` is a `this` binding
-      db.hotels.forEach(makeOption, $optionsPanel.find('#hotel-choices'));
-      db.restaurants.forEach(makeOption, $optionsPanel.find('#restaurant-choices'));
-      db.activities.forEach(makeOption, $optionsPanel.find('#activity-choices'));
-    },
-    error: console.error.bind(console)
-  });
+  $.get('/api/attractions')
+  .then(function (db) {
+    // remember, second param of `forEach` is a `this` binding
+    db.hotels.forEach(makeOption, $optionsPanel.find('#hotel-choices'));
+    db.restaurants.forEach(makeOption, $optionsPanel.find('#restaurant-choices'));
+    db.activities.forEach(makeOption, $optionsPanel.find('#activity-choices'));
+  })
+  .catch(utilsModule.logErr);
 
   // make a single `option` tag & associate it with an attraction object
   function makeOption (databaseAttraction) {

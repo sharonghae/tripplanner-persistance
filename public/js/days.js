@@ -1,5 +1,5 @@
 'use strict';
-/* global $ dayModule */
+/* global $ dayModule utilsModule */
 
 /**
  * A module for managing multiple days & application state.
@@ -48,7 +48,7 @@ var daysModule = (function () {
   function addDay () {
     if (this && this.blur) this.blur(); // removes focus box from buttons
     $.post('/api/days')
-    .done(function (dbDay) {
+    .then(function (dbDay) {
       var newDay = dayModule.create(dbDay);
       days.push(newDay);
       if (days.length === 1) {
@@ -56,7 +56,7 @@ var daysModule = (function () {
         switchTo(currentDay);
       }
     })
-    .fail(console.error.bind(console));
+    .catch(utilsModule.logErr);
   }
 
   function deleteCurrentDay () {
@@ -65,20 +65,20 @@ var daysModule = (function () {
     // remove from the collection
     $.ajax({
       method: 'DELETE',
-      url: '/api/days/' + currentDay.id,
-      success: function () {
-        var index = days.indexOf(currentDay),
-          previousDay = days.splice(index, 1)[0],
-          newCurrent = days[index] || days[index - 1];
-        // fix the remaining day numbers
-        days.forEach(function (day, i) {
-          day.setNumber(i + 1);
-        });
-        switchTo(newCurrent);
-        previousDay.hideButton();
-      },
-      error: console.error.bind(console)
-    });
+      url: '/api/days/' + currentDay.id
+    })
+    .then(function () {
+      var index = days.indexOf(currentDay),
+        previousDay = days.splice(index, 1)[0],
+        newCurrent = days[index] || days[index - 1];
+      // fix the remaining day numbers
+      days.forEach(function (day, i) {
+        day.setNumber(i + 1);
+      });
+      switchTo(newCurrent);
+      previousDay.hideButton();
+    })
+    .catch(utilsModule.logErr);
   }
 
   // globally accessible module methods
@@ -87,14 +87,14 @@ var daysModule = (function () {
 
     load: function () {
       $.get('/api/days')
-      .done(function (dbDays) {
+      .then(function (dbDays) {
         dbDays.forEach(function (dbDay) {
           days.push(dayModule.create(dbDay));
         });
         if (!days.length) addDay();
         else switchTo(days[0]);
       })
-      .fail(console.error.bind(console));
+      .catch(utilsModule.logErr);
     },
 
     switchTo: switchTo,

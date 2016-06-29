@@ -22,7 +22,7 @@ router.get('/', function (req, res, next) {
 router.post('/', function (req, res, next) {
   Day.create(req.body)
   .then(function (day) {
-    res.json(day);
+    res.status(201).json(day);
   })
   .catch(next);
 });
