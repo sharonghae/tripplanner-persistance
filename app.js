@@ -1,5 +1,5 @@
 var express = require('express');
-var morgan = require('morgan');
+var volleyball = require('volleyball');
 var bodyParser = require('body-parser');
 var swig = require('swig');
 var path = require('path');
@@ -14,7 +14,7 @@ app.set('view engine', 'html');
 app.engine('html', swig.renderFile);
 
 // logging and body-parsing
-app.use(morgan('dev'));
+app.use(volleyball);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -47,7 +47,7 @@ app.use(function (err, req, res, next) {
 // listen on a port
 var port = 3000;
 app.listen(port, function () {
-	console.log('The server is listening closely on port', port);
+  console.log('The server is listening closely on port', port);
   db.sync()
   .then(function () {
     console.log('Synchronated the database');

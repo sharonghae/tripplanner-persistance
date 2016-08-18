@@ -3,7 +3,7 @@
 /**
  * This module is for miscellaneous helper functions which may be reused
  * across multiple modules, or else which clear up the main module code
- * through abstraction.
+ * through abstraction. It could easily be replaced by lodash.
  */
 
 var utilsModule = {

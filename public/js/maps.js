@@ -6,14 +6,14 @@ var mapModule = (function () {
   var currentMap,
       currentMarkers = [],
       currentBounds = new google.maps.LatLngBounds(),
-      fullstackAcademy = new google.maps.LatLng(40.705086, -74.009151);
+      GraceHopperAcademy = new google.maps.LatLng(40.705086, -74.009151);
 
   // build and attach when document is ready
 
   $(function initializeMap (){
     var mapCanvas = document.getElementById('map-canvas');
     var options = {
-      center: fullstackAcademy,
+      center: GraceHopperAcademy,
       zoom: 13,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       styles: styleArr
@@ -40,14 +40,14 @@ var mapModule = (function () {
     } else {
       currentMap.setOptions({
         zoom: 13,
-        center: fullstackAcademy
+        center: GraceHopperAcademy
       });
     }
   }
 
   // globally accessible module methods
 
-  var methods = {
+  var publicAPI = {
 
     // mixing concerns here, but the attractions module was getting big
     buildAttractionMarker: function (attraction) {
@@ -82,7 +82,7 @@ var mapModule = (function () {
 
   };
 
-  return methods;
+  return publicAPI;
 
 }());
 
@@ -102,12 +102,16 @@ var styleArr = [{
   featureType: 'administrative.province',
   stylers: [{ visibility: 'off' }]
 }, {
+  featureType: 'administrative.neighborhood',
+  elementType: 'labels.text.fill',
+  stylers: [{ color: '#456580' }, { lightness: 30 }]
+}, {
   featureType: 'water',
   stylers: [{ visibility: 'on' }, { lightness: 30 }]
 }, {
   featureType: 'road.highway',
   elementType: 'geometry.fill',
-  stylers: [{ color: '#ef8c25' }, { lightness: 40 }]
+  stylers: [{ color: '#5b8bb3' }, { lightness: 40 }]
 }, {
   featureType: 'road.highway',
   elementType: 'geometry.stroke',
@@ -115,5 +119,5 @@ var styleArr = [{
 }, {
   featureType: 'poi.park',
   elementType: 'geometry.fill',
-  stylers: [{ color: '#b6c54c' }, { lightness: 40 }, { saturation: -40 }]
+  stylers: [{ color: '#a7cfa5' }, { lightness: 40 }, { saturation: -40 }]
 }];

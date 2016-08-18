@@ -1,85 +1,50 @@
 'use strict';
-/* global $ mapModule daysModule utilsModule */
+/* global $ attractionModule */
 
 /**
- * This module builds front-end `attraction` objects from raw database
- * data. The attraction objects have both DOM `.$itineraryItem` elements
- * and Google Map `.marker`s stored on them as properties. The attractions also
- * have two important methods: `.show()` and `.hide()` cause the itinerary item
- * and marker to be displayed or erased, all automatically.
- *
- * The module has one publicly-usable method: `.create(data)`, which takes
- * a database object for an attraction and creates the live, prototypal
- * `attraction` object with its methods and extra properties. It then
- * returns that object. That method is used principally in `options.js`.
+ * This module holds collection of enhanced attraction objects which can be
+ * easily looked up by type and id. It is primarily used when someone clicks
+ * to add an attraction in the `options` module.
  */
 
 var attractionsModule = (function () {
 
-  // jQuery selections
+  // application state
 
-  var $itinerary, $hotel, $restaurants, $activities;
-  $(function(){
-    $itinerary = $('#itinerary');
-    $hotel = $itinerary.find('ul[data-type="hotel"]');
-    $restaurants = $itinerary.find('ul[data-type="restaurants"]');
-    $activities = $itinerary.find('ul[data-type="activities"]');
-  });
+  var enhanced = {}
 
-  // Attraction class setup
+  var gotAttractions = $.get('/api/attractions')
+  .then(function (db) {
+    enhanced.hotels = db.hotels.map(attractionModule.create);
+    enhanced.restaurants = db.restaurants.map(attractionModule.create);
+    enhanced.activities = db.activities.map(attractionModule.create);
+  })
+  .catch(utilsModule.logErr)
 
-  function Attraction (data) {
-    utilsModule.merge(data, this); // copy all key-val pairs into this new obj
-    this.buildItineraryItem().buildMarker();
+  // private helper methods (only available inside the module)
+
+  function findById (collection, id) {
+    return gotAttractions
+    .then(function () {
+      return enhanced[collection].find(function (el) {
+        return +el.id === +id;
+      });
+    })
   }
 
-  Attraction.prototype.buildItineraryItem = function () {
-    var $button = $('<button class="btn btn-xs btn-danger remove btn-circle">x</button>');
-    var $title = $('<span class="title"></span>').text(this.name);
-    this.$itineraryItem = $('<div class="itinerary-item"></div>')
-      .append($title)
-      .append($button);
-    var self = this;
-    $button.on('click', function () {
-      daysModule.removeFromCurrent(self); // remove from day model
-    });
-    return this;
-  };
+  // globally accessible module methods (available to other modules)
 
-  Attraction.prototype.buildMarker = function () {
-    this.marker = mapModule.buildAttractionMarker(this);
-    return this;
-  };
+  var publicAPI = {
 
-  // main methods meant to be used from any context (e.g. in daysModule)
-
-  Attraction.prototype.show = function () {
-    // itinerary
-    switch (this.type) {
-      case 'hotel': $hotel.append(this.$itineraryItem); break;
-      case 'restaurant': $restaurants.append(this.$itineraryItem); break;
-      case 'activity': $activities.append(this.$itineraryItem); break;
-      default: console.error('bad type:', this);
-    }
-    // map
-    mapModule.draw(this.marker);
-  };
-
-  Attraction.prototype.hide = function () {
-    this.$itineraryItem.detach(); // itinerary
-    mapModule.hide(this.marker); // map
-  };
-
-  // globally accessible module methods
-
-  var methods = {
-
-    create: function (databaseAttraction) {
-      return new Attraction(databaseAttraction);
+    getByTypeAndId: function (type, id) {
+      if (type === 'hotel') return findById('hotels', id);
+      else if (type === 'restaurant') return findById('restaurants', id);
+      else if (type === 'activity') return findById('activities', id);
+      else throw Error('Unknown attraction type');
     }
 
   };
 
-  return methods;
+  return publicAPI;
 
 }());

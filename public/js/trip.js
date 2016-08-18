@@ -1,5 +1,5 @@
 'use strict';
-/* global $ dayModule utilsModule */
+/* global $ dayModule */
 
 /**
  * A module for managing multiple days & application state.
@@ -15,7 +15,7 @@
  * which take `attraction` objects and pass them to `currentDay`.
  */
 
-var daysModule = (function () {
+var tripModule = (function () {
 
   // application state
 
@@ -53,8 +53,8 @@ var daysModule = (function () {
       days.push(newDay);
       if (days.length === 1) {
         currentDay = newDay;
-        switchTo(currentDay);
       }
+      switchTo(newDay);
     })
     .catch(utilsModule.logErr);
   }

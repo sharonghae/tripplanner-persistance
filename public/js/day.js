@@ -1,5 +1,5 @@
 'use strict';
-/* global $ utilsModule daysModule attractionsModule */
+/* global $ utilsModule tripModule attractionModule */
 
 /**
  * A module for constructing front-end `day` objects, optionally from back-end
@@ -33,9 +33,9 @@ var dayModule = (function () {
     this.activities = [];
     // for days based on existing data
     utilsModule.merge(data, this);
-    if (this.hotel) this.hotel = attractionsModule.create(this.hotel);
-    this.restaurants = this.restaurants.map(attractionsModule.create);
-    this.activities = this.activities.map(attractionsModule.create);
+    if (this.hotel) this.hotel = attractionModule.create(this.hotel);
+    this.restaurants = this.restaurants.map(attractionModule.create);
+    this.activities = this.activities.map(attractionModule.create);
     // remainder of constructor
     this.buildButton().showButton();
   }
@@ -53,7 +53,7 @@ var dayModule = (function () {
     var self = this;
     this.$button.on('click', function (){
       this.blur(); // removes focus box from buttons
-      daysModule.switchTo(self);
+      tripModule.switchTo(self);
     });
     return this;
   };
@@ -178,7 +178,7 @@ var dayModule = (function () {
 
   // globally accessible module methods
 
-  var methods = {
+  var publicAPI = {
 
     create: function (databaseDay) {
       return new Day(databaseDay);
@@ -186,6 +186,6 @@ var dayModule = (function () {
 
   };
 
-  return methods;
+  return publicAPI;
 
 }());
