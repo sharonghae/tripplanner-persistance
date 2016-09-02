@@ -1,17 +1,17 @@
 var express = require('express');
 var volleyball = require('volleyball');
 var bodyParser = require('body-parser');
-var swig = require('swig');
+var nunjucks = require('nunjucks');
 var path = require('path');
 
 var db = require('./models');
 
 var app = express();
 
-// swig rendering boilerplate
-app.set('views', path.join(__dirname, '/views'));
+// nunjucks rendering boilerplate
+nunjucks.configure('views');
 app.set('view engine', 'html');
-app.engine('html', swig.renderFile);
+app.engine('html', nunjucks.render);
 
 // logging and body-parsing
 app.use(volleyball);
