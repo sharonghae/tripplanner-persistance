@@ -47,54 +47,35 @@ var tripModule = (function () {
 
   function addDay () {
     if (this && this.blur) this.blur(); // removes focus box from buttons
-    $.post('/api/days')
-    .then(function (dbDay) {
-      var newDay = dayModule.create(dbDay);
-      days.push(newDay);
-      if (days.length === 1) {
-        currentDay = newDay;
-      }
-      switchTo(newDay);
-    })
-    .catch(utilsModule.logErr);
+    var newDay = dayModule.create({ number: days.length + 1 }); // dayModule
+    days.push(newDay);
+    if (days.length === 1) {
+      currentDay = newDay;
+    }
+    switchTo(newDay);
   }
 
   function deleteCurrentDay () {
     // prevent deleting last day
     if (days.length < 2 || !currentDay) return;
     // remove from the collection
-    $.ajax({
-      method: 'DELETE',
-      url: '/api/days/' + currentDay.id
-    })
-    .then(function () {
-      var index = days.indexOf(currentDay),
-        previousDay = days.splice(index, 1)[0],
-        newCurrent = days[index] || days[index - 1];
-      // fix the remaining day numbers
-      days.forEach(function (day, i) {
-        day.setNumber(i + 1);
-      });
-      switchTo(newCurrent);
-      previousDay.hideButton();
-    })
-    .catch(utilsModule.logErr);
+    var index = days.indexOf(currentDay),
+      previousDay = days.splice(index, 1)[0],
+      newCurrent = days[index] || days[index - 1];
+    // fix the remaining day numbers
+    days.forEach(function (day, i) {
+      day.setNumber(i + 1);
+    });
+    switchTo(newCurrent);
+    previousDay.hideButton();
   }
 
   // globally accessible module methods
 
-  var methods = {
+  var publicAPI = {
 
     load: function () {
-      $.get('/api/days')
-      .then(function (dbDays) {
-        dbDays.forEach(function (dbDay) {
-          days.push(dayModule.create(dbDay));
-        });
-        if (!days.length) addDay();
-        else switchTo(days[0]);
-      })
-      .catch(utilsModule.logErr);
+      $(addDay);
     },
 
     switchTo: switchTo,
@@ -109,6 +90,6 @@ var tripModule = (function () {
 
   };
 
-  return methods;
+  return publicAPI;
 
 }());

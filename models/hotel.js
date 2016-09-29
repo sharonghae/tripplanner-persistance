@@ -11,13 +11,13 @@ var Hotel = db.define('hotel', {
   },
   amenities: Sequelize.STRING
 }, {
-  getterMethods: {
-    type: function () {
-      return this.Model.name;
-    }
-  },
   defaultScope: {
     include: [Place]
+  },
+  getterMethods: {
+    type: function () {
+      return 'hotel'
+    }
   }
 });
 

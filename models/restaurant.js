@@ -10,13 +10,13 @@ var Restaurant = db.define('restaurant', {
   },
   cuisine: Sequelize.STRING
 }, {
-  getterMethods: {
-    type: function () {
-      return this.Model.name;
-    }
-  },
   defaultScope: {
     include: [Place]
+  },
+  getterMethods: {
+    type: function () {
+      return 'restaurant'
+    }
   }
 });
 

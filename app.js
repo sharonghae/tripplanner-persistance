@@ -9,7 +9,7 @@ var db = require('./models');
 var app = express();
 
 // nunjucks rendering boilerplate
-nunjucks.configure('views');
+nunjucks.configure('views', { noCache: true });
 app.set('view engine', 'html');
 app.engine('html', nunjucks.render);
 

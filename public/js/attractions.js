@@ -1,5 +1,5 @@
 'use strict';
-/* global $ attractionModule */
+/* global $ attractionModule hotels restaurants activities */
 
 /**
  * This module holds collection of enhanced attraction objects which can be
@@ -11,25 +11,18 @@ var attractionsModule = (function () {
 
   // application state
 
-  var enhanced = {}
-
-  var gotAttractions = $.get('/api/attractions')
-  .then(function (db) {
-    enhanced.hotels = db.hotels.map(attractionModule.create);
-    enhanced.restaurants = db.restaurants.map(attractionModule.create);
-    enhanced.activities = db.activities.map(attractionModule.create);
-  })
-  .catch(utilsModule.logErr)
+  var enhanced = {
+    hotels: hotels.map(attractionModule.create),
+    restaurants: restaurants.map(attractionModule.create),
+    activities: activities.map(attractionModule.create),
+  }
 
   // private helper methods (only available inside the module)
 
-  function findById (collection, id) {
-    return gotAttractions
-    .then(function () {
-      return enhanced[collection].find(function (el) {
-        return +el.id === +id;
-      });
-    })
+  function findById (array, id) {
+    return array.find(function (el) {
+      return +el.id === +id;
+    });
   }
 
   // globally accessible module methods (available to other modules)
@@ -37,10 +30,18 @@ var attractionsModule = (function () {
   var publicAPI = {
 
     getByTypeAndId: function (type, id) {
-      if (type === 'hotel') return findById('hotels', id);
-      else if (type === 'restaurant') return findById('restaurants', id);
-      else if (type === 'activity') return findById('activities', id);
+      if (type === 'hotel') return findById(enhanced.hotels, id);
+      else if (type === 'restaurant') return findById(enhanced.restaurants, id);
+      else if (type === 'activity') return findById(enhanced.activities, id);
       else throw Error('Unknown attraction type');
+    },
+
+    getEnhanced: function (databaseAttraction) {
+      var type = databaseAttraction.type;
+      var id = databaseAttraction.id;
+      var found = publicAPI.getByTypeAndId(type, id);
+      if (found) return found;
+      throw Error('enhanced version not found', databaseAttraction);
     }
 
   };

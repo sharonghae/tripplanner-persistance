@@ -49,7 +49,7 @@ var data = {
     {name: "Ground Zero", place: {address: "1 Liberty Plz Lbby 2", city: "New York", state: "NY", phone: "123-456-7890", location: [40.709329, -74.013120]}, age_range: "All" },
     {name: "National September 11th Memorial & Museum", place: {address: "1 Albany St", city: "New York", state: "NY", phone: "123-456-7890", location: [40.709189, -74.013157]}, age_range: "All" },
     {name: "Battery Park", place: {address: "State St & Battery Pl", city: "New York", state: "NY", phone: "123-456-7890", location: [40.704531, -74.014334]}, age_range: "All" },
-    {name: "Staten Island Ferry Whitehall Terminal", place: {address: "4 S St", city: "New York", state: "NY", phone: "123-456-7890", location: [40.729125, -73.989650]}, age_range: "All" },
+    {name: "Staten Island Ferry Whitehall Terminal", place: {address: "4 S St", city: "New York", state: "NY", phone: "123-456-7890", location: [40.7010306, -74.0130686]}, age_range: "All" },
     {name: "Chinatown Ice Cream Factory", place: {address: "65 Bayard St", city: "New York", state: "NY", phone: "123-456-7890", location: [40.715323, -73.998190]}, age_range: "All" },
     {name: "Blue Man Group", place: {address: "434 Lafayette St", city: "New York", state: "NY", phone: "123-456-7890", location: [40.729373, -73.992104]}, age_range: "All" },
     {name: "Scott's Pizza Tours", place: {address: "244 5th Ave", city: "New York", state: "NY", phone: "123-456-7890", location: [40.744610, -73.987708]}, age_range: "All" },

@@ -1,5 +1,5 @@
 'use strict';
-/* global $ tripModule attractionsModule utilsModule */
+/* global $ tripModule attractionsModule hotels restaurants activities */
 
 /**
  * This module fills the `select` tags with `option`s.
@@ -17,16 +17,11 @@ $(function(){
   var $restaurantSelect = $optionsPanel.find('#restaurant-choices');
   var $activitySelect = $optionsPanel.find('#activity-choices');
 
-  $.get('/api/attractions')
-  .then(function (db) {
-    // make all the option tags (second arg of `forEach` is a `this` binding)
-    db.hotels.forEach(makeOption, $hotelSelect);
-    db.restaurants.forEach(makeOption, $restaurantSelect);
-    db.activities.forEach(makeOption, $activitySelect);
-  })
-  .catch(utilsModule.logErr);
+  // make all the option tags (second arg of `forEach` is a `this` binding)
+  hotels.forEach(makeOption, $hotelSelect);
+  restaurants.forEach(makeOption, $restaurantSelect);
+  activities.forEach(makeOption, $activitySelect);
 
-  // make a single `option` tag & associate it with an attraction object
   function makeOption (databaseAttraction) {
     var $option = $('<option></option>') // makes a new option tag
       .text(databaseAttraction.name)
@@ -40,11 +35,8 @@ $(function(){
     var type = $select.data('type'); // from HTML data-type attribute
     var id = $select.find(':selected').val();
     // get associated attraction and add it to the current day in the trip
-    attractionsModule.getByTypeAndId(type, id)
-    .then(function (attraction) {
-      tripModule.addToCurrent(attraction);
-    })
-    .catch(utilsModule.logErr)
+    var attraction = attractionsModule.getByTypeAndId(type, id);
+    tripModule.addToCurrent(attraction);
   });
 
 });
