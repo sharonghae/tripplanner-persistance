@@ -81,9 +81,32 @@
     </div>
   </div>
 </div>
-<script>
+<!-- <script>
   var hotels = {{ templateHotels | dump | safe }};
   var restaurants = {{ templateRestaurants | dump | safe }};
   var activities = {{ templateActivities | dump | safe }};
-</script>
+</script> -->
+
+
+<!-- <script>
+var hotels, restaurants, activities;
+
+  $.get('/api/hotels')
+  .then(function (hotelsData) {
+    hotels = hotelsData;
+  })
+  .catch( console.error.bind(console) );
+
+  $.get('/api/restaurants')
+  .then(function (restaurantsData) {
+  restaurants = restaurantsData;
+  })
+  .catch( console.error.bind(console) );
+
+  $.get('/api/activities')
+  .then(function (activitiesData) {
+  activities = activitiesData;
+  })
+  .catch( console.error.bind(console) );
+</script> -->
 {% endblock %}

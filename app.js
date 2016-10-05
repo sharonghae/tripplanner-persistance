@@ -27,6 +27,8 @@ app.use(express.static(path.join(__dirname, '/public')));
 
 // serve dynamic routes
 app.use(require('./routes'));
+app.use(require('./routes/api/attractions.js'))
+app.use(require('./routes/api/day.js'))
 
 // failed to catch req above means 404, forward to error handler
 app.use(function (req, res, next) {
